@@ -21,13 +21,26 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { BLOOD_GROUP_OPTIONS, GENDER_OPTIONS } from '@/constant/constants';
+import {
+  ACTION_STATUS,
+  BLOOD_GROUP_OPTIONS,
+  GENDER_OPTIONS,
+} from '@/constant/constants';
 import { useEffect, useState } from 'react';
-import { fetchCities, fetchCountries, fetchStates } from '@/services/geodb';
+import {
+  fetchCities,
+  fetchCountries,
+  fetchStates,
+} from '@/services/address-service';
+import { createPatient } from '@/services/patient-service';
 import {
   registerFormInitialValues,
   registerFormSchema,
 } from '@/schemas/register-form.schema';
+import { useAction } from '@/hooks/useAction';
+import { Loader2 } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { showToast } from '@/lib/toast';
 
 type Option = {
   label: string;
@@ -38,6 +51,36 @@ function RegisterForm() {
   const [countries, setCountries] = useState<Option[]>([]);
   const [states, setStates] = useState<Option[]>([]);
   const [cities, setCities] = useState<Option[]>([]);
+
+  const router = useRouter();
+
+  const {
+    status,
+    error,
+    invoke: invokeCreatePatient,
+  } = useAction(createPatient);
+
+  const isLoading = status === ACTION_STATUS.LOADING;
+
+  useEffect(() => {
+    if (status === ACTION_STATUS.SUCCESS) {
+      form.reset();
+      router.push('/');
+
+      showToast({
+        type: 'success',
+        title: 'SUCCESS',
+        description: 'Patient registered successfully.',
+      });
+    }
+    if (status === ACTION_STATUS.ERROR) {
+      showToast({
+        type: 'error',
+        title: 'FAILED',
+        description: 'Patient registered failed.',
+      });
+    }
+  }, [status]);
 
   useEffect(() => {
     fetchCountries().then(setCountries);
@@ -66,8 +109,16 @@ function RegisterForm() {
     }
   }, [selectedState]);
 
-  const onSubmit = (data: z.infer<typeof registerFormSchema>) => {
-    console.log(data);
+  const onSubmit = async (data: z.infer<typeof registerFormSchema>) => {
+    const countryLabel = countries.find(c => c.value === data.country)?.label;
+    const stateLabel = states.find(s => s.value === data.state)?.label;
+
+    const payload = {
+      ...data,
+      countryName: countryLabel,
+      stateName: stateLabel,
+    };
+    await invokeCreatePatient(payload);
   };
 
   return (
@@ -395,7 +446,10 @@ function RegisterForm() {
         </div>
 
         <div className="pt-4">
-          <Button type="submit">Register</Button>
+          <Button type="submit">
+            {isLoading && <Loader2 className="animate-spin" />}
+            Register
+          </Button>
         </div>
       </form>
     </Form>

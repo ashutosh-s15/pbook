@@ -57,8 +57,6 @@ export async function createPatient(data: RegisterFormSchema) {
     );
   `;
 
-  console.log('query ', query);
-
   await db.exec(query);
 
   return { success: true, patientId };
