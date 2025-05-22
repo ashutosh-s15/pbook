@@ -16,3 +16,10 @@ export const BLOOD_GROUP_OPTIONS = [
 ];
 
 export const PHONE_REGEX = /^\+?[0-9\s\-]{10,15}$/;
+
+export const ACTION_STATUS = {
+  IDLE: 'idle',
+  SUCCESS: 'success',
+  ERROR: 'error',
+  LOADING: 'loading',
+};
