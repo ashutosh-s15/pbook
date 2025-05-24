@@ -23,3 +23,7 @@ export const ACTION_STATUS = {
   ERROR: 'error',
   LOADING: 'loading',
 };
+
+export const PATIENT_BROADCAST_TYPES = {
+  PATIENT_CREATED: 'PATIENT_CREATED',
+};

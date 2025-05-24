@@ -1,8 +1,15 @@
 // services/patient/createPatient.ts
+import { PATIENT_BROADCAST_TYPES } from '@/constant/constants';
 import { getDB } from '@/db/pglite';
+import { patientChannel } from '@/lib/broadcast';
 import { escapeString } from '@/lib/utils';
 import { RegisterFormSchema } from '@/schemas/register-form.schema';
 import { v4 as uuidv4 } from 'uuid';
+
+export interface GetPatientsParams {
+  page: number;
+  pageSize: number;
+}
 
 export async function createPatient(data: RegisterFormSchema) {
   const db = await getDB();
@@ -59,5 +66,30 @@ export async function createPatient(data: RegisterFormSchema) {
 
   await db.exec(query);
 
+  // Broadcast the update to other tabs
+  patientChannel.postMessage({
+    type: PATIENT_BROADCAST_TYPES.PATIENT_CREATED,
+    patientId,
+  });
+
   return { success: true, patientId };
+}
+
+export async function getPatients({ page, pageSize }: GetPatientsParams) {
+  const db = await getDB();
+  const offset = page * pageSize;
+
+  const result = await db.exec(`
+    SELECT * FROM patients LIMIT ${pageSize} OFFSET ${offset};
+  `);
+
+  const countResult = await db.exec(`SELECT COUNT(*) as total FROM patients;`);
+
+  const patients = result[0]?.rows ?? [];
+  const totalCount = countResult[0]?.rows?.[0]?.total ?? 0;
+
+  return {
+    patients,
+    totalCount,
+  };
 }
