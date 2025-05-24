@@ -2,6 +2,10 @@ import { PGlite } from '@electric-sql/pglite';
 
 let db: PGlite | null = null;
 
+export const resetDBInstance = () => {
+  db = null;
+};
+
 export const getDB = async (): Promise<PGlite> => {
   if (!db) {
     db = new PGlite('idb://patient');

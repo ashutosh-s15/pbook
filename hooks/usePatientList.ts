@@ -3,6 +3,7 @@ import { getPatients } from '@/services/patient-service';
 import { useBroadcastChannel } from './useBroadcastChannel';
 import { patientChannel } from '@/lib/broadcast';
 import { PATIENT_BROADCAST_TYPES } from '@/constant/constants';
+import { resetDBInstance } from '@/db/pglite';
 
 interface Patient {
   [key: string]: any;
@@ -33,8 +34,11 @@ export function usePatientList(page: number, pageSize: number) {
     fetchPatients();
   }, [fetchPatients]);
 
-  useBroadcastChannel<PatientEvent>(patientChannel, msg => {
+  useBroadcastChannel<PatientEvent>(patientChannel, async msg => {
     if (msg.type === PATIENT_BROADCAST_TYPES.PATIENT_CREATED) {
+      resetDBInstance();
+      await new Promise(resolve => setTimeout(resolve, 500));
+
       fetchPatients();
     }
   });
