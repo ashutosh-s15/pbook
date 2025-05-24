@@ -1,8 +1,5 @@
-import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { SidebarTrigger } from '@/components/ui/sidebar';
-import { PATH_TITLE_MAP } from '@/constant/constants';
-import { usePathname } from 'next/navigation';
 
 export function SiteHeader({ title }: { title: string }) {
   return (
