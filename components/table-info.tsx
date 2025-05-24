@@ -29,7 +29,6 @@ function TableInfo() {
         </DialogHeader>
 
         <div className="space-y-6 p-2">
-          {/* Table Structure Diagram */}
           <div>
             <h3 className="font-semibold mb-3 text-lg">
               Patients Table Structure
@@ -45,7 +44,6 @@ function TableInfo() {
             </div>
           </div>
 
-          {/* Query Validation Rules */}
           <div>
             <h3 className="font-semibold mb-3 text-lg">Query Requirements</h3>
             <div className="space-y-4">
