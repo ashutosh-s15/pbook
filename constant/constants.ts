@@ -27,3 +27,30 @@ export const ACTION_STATUS = {
 export const PATIENT_BROADCAST_TYPES = {
   PATIENT_CREATED: 'PATIENT_CREATED',
 };
+
+export const FORBIDDEN_QUERY_KEYWORDS = [
+  'insert',
+  'update',
+  'delete',
+  'drop',
+  'alter',
+  'create',
+  'truncate',
+  'grant',
+  'revoke',
+  'merge',
+  'commit',
+  'rollback',
+  'savepoint',
+  'lock',
+  'unlock',
+  'transaction',
+  'procedure',
+  'function',
+  'explain',
+  'execute',
+  'prepare',
+  'vacuum',
+  'copy',
+  'comment',
+];

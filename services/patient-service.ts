@@ -1,4 +1,3 @@
-// services/patient/createPatient.ts
 import { PATIENT_BROADCAST_TYPES } from '@/constant/constants';
 import { getDB } from '@/db/pglite';
 import { patientChannel } from '@/lib/broadcast';
