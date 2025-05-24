@@ -81,6 +81,7 @@ export function DataTable<TData>({
     []
   );
   const [sorting, setSorting] = React.useState<SortingState>([]);
+  const [isResizing, setIsResizing] = React.useState(false);
 
   const [internalPagination, setInternalPagination] =
     React.useState<PaginationState>({
@@ -122,7 +123,9 @@ export function DataTable<TData>({
     onColumnVisibilityChange: setColumnVisibility,
     columnResizeMode: 'onChange',
     defaultColumn: {
+      minSize: 60,
       size: 150,
+      maxSize: 500,
     },
     onPaginationChange: setPagination,
     getCoreRowModel: getCoreRowModel(),
@@ -134,6 +137,48 @@ export function DataTable<TData>({
     getFacetedRowModel: getFacetedRowModel(),
     getFacetedUniqueValues: getFacetedUniqueValues(),
   });
+
+  // Handle column resizing
+  const startResizing = React.useCallback(
+    (headerId: string, event: React.MouseEvent<HTMLDivElement>) => {
+      event.preventDefault();
+      setIsResizing(true);
+
+      const headerElement = event.currentTarget.parentElement;
+      if (!headerElement) return;
+
+      const startWidth = headerElement.offsetWidth;
+      const startX = event.clientX;
+
+      const onMouseMove = (moveEvent: MouseEvent) => {
+        const newWidth = startWidth + (moveEvent.clientX - startX);
+        table.setColumnSizing(old => ({
+          ...old,
+          [headerId]: Math.max(60, Math.min(500, newWidth)),
+        }));
+      };
+
+      const onMouseUp = () => {
+        setIsResizing(false);
+        window.removeEventListener('mousemove', onMouseMove);
+        window.removeEventListener('mouseup', onMouseUp);
+      };
+
+      window.addEventListener('mousemove', onMouseMove);
+      window.addEventListener('mouseup', onMouseUp);
+    },
+    [table]
+  );
+
+  React.useEffect(() => {
+    if (isResizing) {
+      document.body.style.cursor = 'col-resize';
+      document.body.style.userSelect = 'none';
+    } else {
+      document.body.style.cursor = '';
+      document.body.style.userSelect = '';
+    }
+  }, [isResizing]);
 
   return (
     <div className="flex w-full flex-col justify-start gap-6">
@@ -215,16 +260,28 @@ export function DataTable<TData>({
                           colSpan={header.colSpan}
                           style={{
                             width: header.getSize(),
-                            minWidth: header.getSize(),
-                            maxWidth: header.getSize(),
+                            position: 'relative',
                           }}
+                          className="group overflow-hidden"
                         >
-                          {header.isPlaceholder
-                            ? null
-                            : flexRender(
-                                header.column.columnDef.header,
-                                header.getContext()
-                              )}
+                          <div className="flex items-center justify-between">
+                            {header.isPlaceholder
+                              ? null
+                              : flexRender(
+                                  header.column.columnDef.header,
+                                  header.getContext()
+                                )}
+                          </div>
+                          <div
+                            className={`
+                              absolute right-0 top-0 h-full w-1 
+                              cursor-col-resize bg-gray-300 
+                              hover:bg-blue-500 
+                              ${isResizing ? 'bg-blue-600' : ''}
+                              opacity-0 group-hover:opacity-100
+                            `}
+                            onMouseDown={e => startResizing(header.id, e)}
+                          />
                         </TableHead>
                       ))}
                     </TableRow>
@@ -241,6 +298,7 @@ export function DataTable<TData>({
                             minWidth: cell.column.getSize(),
                             maxWidth: cell.column.getSize(),
                           }}
+                          className="overflow-hidden text-ellipsis"
                         >
                           {flexRender(
                             cell.column.columnDef.cell,
