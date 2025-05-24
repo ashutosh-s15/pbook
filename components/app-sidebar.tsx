@@ -1,32 +1,12 @@
 'use client';
 
 import * as React from 'react';
-import {
-  IconCamera,
-  IconChartBar,
-  IconDashboard,
-  IconDatabase,
-  IconFileAi,
-  IconFileDescription,
-  IconFileWord,
-  IconFolder,
-  IconHelp,
-  IconInnerShadowTop,
-  IconListDetails,
-  IconReport,
-  IconSearch,
-  IconSettings,
-  IconUsers,
-  IconAdFilled,
-  IconCirclePlus,
-  IconBook,
-} from '@tabler/icons-react';
+import { IconUsers, IconCirclePlus, IconBook } from '@tabler/icons-react';
 
 import { NavMain } from '@/components/nav-main';
 import {
   Sidebar,
   SidebarContent,
-  SidebarFooter,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,

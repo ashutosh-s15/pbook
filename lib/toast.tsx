@@ -13,6 +13,7 @@ export function showToast({
   type: ToastType;
   title: string;
   description?: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   options?: any;
 }) {
   sonnerToast(title, {

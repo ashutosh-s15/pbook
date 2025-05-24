@@ -48,7 +48,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from './ui/select';
-import { FileSearch, Inbox, Loader2 } from 'lucide-react';
+import { Inbox, Loader2 } from 'lucide-react';
 
 interface DataTableProps<TData> {
   data: TData[];
