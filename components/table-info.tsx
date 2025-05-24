@@ -84,11 +84,7 @@ function TableInfo() {
                     No multiple statements (cannot use{' '}
                     <code className="bg-muted px-1 rounded">;</code> separator)
                   </li>
-                  <li>
-                    No SQL comments (
-                    <code className="bg-muted px-1 rounded">--</code> or{' '}
-                    <code className="bg-muted px-1 rounded">/* */</code>)
-                  </li>
+                  <li>No SQL comments</li>
                 </ul>
               </div>
 
