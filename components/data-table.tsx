@@ -233,9 +233,9 @@ export function DataTable<TData>({
       </div>
       <div className="relative flex flex-col gap-4 overflow-auto px-4 lg:px-6">
         <div className="overflow-hidden rounded-lg border">
-          <div className="relative w-full overflow-auto">
+          <div className="relative w-full overflow-auto min-h-[400px]">
             {loading || !table.getRowModel().rows.length ? (
-              <div className="flex min-h-[240px] items-center justify-center bg-white">
+              <div className="flex min-h-[400px] items-center justify-center bg-white">
                 {loading ? (
                   <div className="flex items-center gap-3">
                     <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
@@ -250,7 +250,7 @@ export function DataTable<TData>({
                 )}
               </div>
             ) : (
-              <Table>
+              <Table className="h-full">
                 <TableHeader className="bg-muted sticky top-0 z-10">
                   {table.getHeaderGroups().map(headerGroup => (
                     <TableRow key={headerGroup.id}>

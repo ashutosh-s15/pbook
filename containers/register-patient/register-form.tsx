@@ -110,13 +110,15 @@ function RegisterForm() {
   }, [selectedState]);
 
   const onSubmit = async (data: z.infer<typeof registerFormSchema>) => {
-    const countryLabel = countries.find(c => c.value === data.country)?.label;
-    const stateLabel = states.find(s => s.value === data.state)?.label;
+    const countryLabel =
+      countries.find(c => c.value === data.country)?.label || data.country;
+    const stateLabel =
+      states.find(s => s.value === data.state)?.label || data.state;
 
     const payload = {
       ...data,
-      countryName: countryLabel,
-      stateName: stateLabel,
+      country: countryLabel,
+      state: stateLabel,
     };
     await invokeCreatePatient(payload);
   };
