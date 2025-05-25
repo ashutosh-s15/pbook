@@ -99,7 +99,7 @@ Implementing the tab sync functionality was particularly interesting as it was m
 - Handling state consistency across multiple tabs
 - Ensuring real-time updates without performance hits
 
-## Planned Improvements
+## Improvements
 
 ### 🏥 UI Library Upgrade
 
