@@ -103,7 +103,7 @@ Implementing the tab sync functionality was particularly interesting as it was m
 
 ### 🏥 UI Library Upgrade
 
-During my research, I discovered Medblocks UI which would have been an excellent choice for the patient registration app. However, due to time constraints from work commitments and project deadlines, I opted to use UI libraries I was already familiar with.
+During my research, I discovered Medblocks UI which would have been an excellent choice for the patient registration app. However, due to time constraints from my work commitments and project's deadline, I opted to use UI libraries I was already familiar with.
 
 ### 🗃️ Database Schema Refinement
 
