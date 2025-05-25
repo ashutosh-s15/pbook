@@ -1,4 +1,4 @@
-# Patient Registration App
+# PBook
 
 A Next.js application for patient registration and search with real-time tab synchronization.
 
