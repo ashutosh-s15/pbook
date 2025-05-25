@@ -109,6 +109,13 @@ function RegisterForm() {
     }
   }, [selectedState]);
 
+  const handleReset = () => {
+    form.reset(registerFormInitialValues);
+
+    setStates([]);
+    setCities([]);
+  };
+
   const onSubmit = async (data: z.infer<typeof registerFormSchema>) => {
     const countryLabel =
       countries.find(c => c.value === data.country)?.label || data.country;
@@ -140,7 +147,7 @@ function RegisterForm() {
                 <FormItem>
                   <FormLabel>First Name</FormLabel>
                   <FormControl>
-                    <Input {...field} />
+                    <Input {...field} placeholder="Enter first name" />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -153,7 +160,7 @@ function RegisterForm() {
                 <FormItem>
                   <FormLabel>Last Name</FormLabel>
                   <FormControl>
-                    <Input {...field} />
+                    <Input {...field} placeholder="Enter last name" />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -182,10 +189,7 @@ function RegisterForm() {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Gender</FormLabel>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
+                  <Select onValueChange={field.onChange} value={field.value}>
                     <FormControl className="w-full">
                       <SelectTrigger className="w-full">
                         <SelectValue placeholder="Select gender" />
@@ -217,7 +221,11 @@ function RegisterForm() {
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input type="email" {...field} />
+                    <Input
+                      type="email"
+                      {...field}
+                      placeholder="Enter email address"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -230,7 +238,7 @@ function RegisterForm() {
                 <FormItem>
                   <FormLabel>Contact Number</FormLabel>
                   <FormControl>
-                    <Input {...field} />
+                    <Input {...field} placeholder="Enter phone number" />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -250,7 +258,7 @@ function RegisterForm() {
                 <FormItem>
                   <FormLabel>Address Line</FormLabel>
                   <FormControl>
-                    <Input {...field} />
+                    <Input {...field} placeholder="Enter street address" />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -351,10 +359,7 @@ function RegisterForm() {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Blood Group</FormLabel>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
+                  <Select onValueChange={field.onChange} value={field.value}>
                     <FormControl className="w-full">
                       <SelectTrigger className="w-full">
                         <SelectValue placeholder="Select blood group" />
@@ -379,7 +384,7 @@ function RegisterForm() {
                 <FormItem>
                   <FormLabel>Allergies</FormLabel>
                   <FormControl>
-                    <Input {...field} />
+                    <Input {...field} placeholder="List any allergies" />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -392,7 +397,10 @@ function RegisterForm() {
                 <FormItem className="md:col-span-2">
                   <FormLabel>Notes</FormLabel>
                   <FormControl>
-                    <Textarea {...field} />
+                    <Textarea
+                      {...field}
+                      placeholder="Enter any additional medical notes"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -412,7 +420,10 @@ function RegisterForm() {
                 <FormItem>
                   <FormLabel>Name</FormLabel>
                   <FormControl>
-                    <Input {...field} />
+                    <Input
+                      {...field}
+                      placeholder="Enter emergency contact name"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -425,7 +436,10 @@ function RegisterForm() {
                 <FormItem>
                   <FormLabel>Phone Number</FormLabel>
                   <FormControl>
-                    <Input {...field} />
+                    <Input
+                      {...field}
+                      placeholder="Enter emergency phone number"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -438,7 +452,10 @@ function RegisterForm() {
                 <FormItem className="md:col-span-2">
                   <FormLabel>Relation to Patient</FormLabel>
                   <FormControl>
-                    <Input {...field} />
+                    <Input
+                      {...field}
+                      placeholder="Enter relationship (e.g., Parent, Spouse)"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -447,10 +464,18 @@ function RegisterForm() {
           </div>
         </div>
 
-        <div className="pt-4">
+        <div className="pt-4 flex gap-2">
           <Button type="submit">
             {isLoading && <Loader2 className="animate-spin" />}
             Register
+          </Button>
+          <Button
+            type="button"
+            variant="outline"
+            onClick={handleReset}
+            disabled={isLoading}
+          >
+            Reset
           </Button>
         </div>
       </form>
