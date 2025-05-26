@@ -44,6 +44,11 @@ A Next.js application for patient registration and search with real-time tab syn
 
 3. Set up environment variables:
 
+   ⚠️ Important
+
+   - For evaluation purposes, this project includes a **temporary API key** in the `.env.example` file to fetch country/state/city data for patient register form address fields.
+   - This API key is **provided only for assignment evaluation convenience** and will be invalidated after the assignment feedback.
+
 - Copy `.env.example` to `.env.development`
 - Add your API key:
   ```bash
